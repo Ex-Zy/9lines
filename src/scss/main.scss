@@ -1,0 +1,169 @@
+// stylelint-disable at-rule-empty-line-before
+
+@import "variables";
+@import "functions";
+@import "mixins";
+@import "sprites";
+@import "fonts";
+@import "vendor";
+@import "base";
+
+.info {
+	background: url(../images/info-bg.jpg) no-repeat center;
+	background-size: cover;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	border-bottom: 1px solid $color-bg;
+	&__profile {
+		position: relative;
+		img {
+			width: 100%;
+			height: auto;
+			border-radius: 50%;
+			overflow: hidden;
+			display: block;
+			@include small {
+				max-width: 160px;
+				margin: auto;
+			}
+		}
+	}
+}
+
+.contact {
+	position: relative;
+	@include small {
+		padding-top: 30px;
+	}
+	&:after {
+		content: '';
+		display: block;
+		position: absolute;
+		right: -6px;
+		bottom: -22px;
+		width: 184px;
+		height: 166px;
+		z-index: 1;
+		background: url(../images/approved.png) no-repeat center;
+		@include small {
+			bottom: 18px;
+		}
+	}
+	&__row {
+		border-bottom: 1px solid $color-mine-shaft;
+		&:not(:first-of-type) {
+			padding: 22px 0 0;
+		}
+	}
+
+}
+
+.skills {
+	padding-top: 30px;
+	padding-bottom: 40px;
+	background: url(../images/skills-bg.jpg) no-repeat center;
+	background-size: cover;
+	border-bottom: 1px solid $color-bg;
+	&__title {
+		margin: 0 0 16px;
+		@include small {
+			margin: 0;
+		}
+	}
+	&__list {
+		@include small {
+			padding: 30px 0 0;
+		}
+	}
+	label {
+		cursor: pointer;
+	}
+}
+
+.list {
+	&__item {
+		text-transform: uppercase;
+		position: relative;
+		&:not(:first-of-type) {
+			margin: 40px 0 0;
+			@include small {
+				margin: 30px 0 0;
+			}
+		}
+	}
+	&__text {
+		display: block;
+		position: relative;
+		padding: 0 0 0 30px;
+		line-height: 20px;
+		&:before {
+			content: '';
+			display: block;
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 19px;
+			height: 19px;
+			background: url(../images/no-checked.png) no-repeat center;
+			transition: background 0.2s;
+		}
+	}
+	&__checkbox {
+		opacity: 0;
+		visibility: hidden;
+		position: absolute;
+		left: -9999px;
+		&:checked ~ span {
+			&:before {
+				background: url(../images/checked.png) no-repeat center;
+			}
+		}
+	}
+}
+
+.interactive {
+	background: url(../images/interactive-bg.jpg) no-repeat center;
+	background-size: cover;
+	padding-top: 60px;
+	padding-bottom: 60px;
+	.cell {
+		&:nth-of-type(1) {
+			@include small {
+				order: 2;
+			}
+		}
+		&:nth-of-type(2) {
+			@include small {
+				order: 1;
+			}
+		}
+	}
+}
+
+.pie {
+	width: 254px;
+	height: 128px;
+	background: url(../images/pie.png) no-repeat center;
+	position: relative;
+	&__arrow {
+		background: url(../images/arrow.png) no-repeat center;
+		width: 66px;
+		height: 21px;
+		position: absolute;
+		z-index: 1;
+		left: 50%;
+		bottom: -12px;
+		margin: 0 0 0 -66px;
+		transform-origin: 100% 50%;
+		transition: transform 1s;
+	}
+}
+
+.meter {
+	font-size: 50px;
+	color: $color-blue;
+	@include small {
+		font-size: 40px;
+	}
+}
+

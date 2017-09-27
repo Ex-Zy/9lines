@@ -1,0 +1,53 @@
+extends pug/base
+
+append vars
+	- html.classList.push('page-index')
+
+block content
+
+	.out
+		//- Анкета пользователя
+		.info.grid-container
+			.grid-x.grid-padding-x
+				.info__profile.cell.medium-2
+					img(src="images/avatar.jpg" alt="Profile photo")
+				.info__contact.contact.cell.medium-6
+					.contact__row
+						input(type="text" placeholder="Имя" value="Сергей Нагорных").input
+					.contact__row
+						input(type="text" placeholder="Дата рождения" value="21.03.1993").input
+					.contact__row
+						input(type="text" placeholder="Город" value="Киев").input
+					.contact__row
+						input(type="text" placeholder="Контактыне данные" value="ул. Туполева 1, кв 70").input
+
+		//- Навыки
+		.skills.grid-container
+			h3.skills__title.title Навыки
+			.grid-x.grid-padding-x.small-up-2.medium-up-4
+				each unitList in [ [{attr: "checked",text: "Html5"}, {attr: "checked", text: "css3"}, {attr: "checked", text: "БЭМ"}], [{attr: "checked", text: "SASS"}, {attr: "checked", text: "LESS"}, {attr: "checked", text: "gULP"}], [{attr: "checked", text: "vANILLAJS"}, {text: "angular"}, {attr: "checked", text: "JQUERY"}], [{attr: "checked", text: "GIT"}, {attr: "checked", text: "fOUNDATION"}, {attr: "checked", text: "BOOTSTRAP"}] ]
+					.cell
+						ul.skills__list.list
+							each unitItem in unitList
+								li.list__item
+									label
+										if unitItem.attr === "checked"
+											input.list__checkbox(type="checkbox" checked)
+										else
+											input.list__checkbox(type="checkbox")
+
+										span.list__text= unitItem.text
+
+		
+		//- График и счетчик
+		.interactive.grid-container
+			.grid-x.grid-padding-x.medium-up-2
+				.cell
+					.pie(data-pie)
+						.pie__arrow(data-arrow)
+				.cell
+					h3.title 
+						| Мой уровень владения 
+						br 
+						| Java Script
+					.meter(data-meter) 0

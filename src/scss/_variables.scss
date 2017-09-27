@@ -1,0 +1,30 @@
+// stylelint-disable scss/dollar-variable-empty-line-before
+
+// COLORS
+$color-bg: #f0f0f0;
+$color-black: #010101;
+$color-white: #fff;
+$color-dove-gray: #666;
+$color-mine-shaft: #333;
+$color-blue: #0093d7;
+
+// FONTS
+$font-family-roboto: 'Roboto', sans-serif;
+
+// GRID
+$global-width: 660px;
+$grid-columns: 8;
+$grid-margin-gutters: (
+  small: 20px
+);
+$grid-padding-gutters: $grid-margin-gutters;
+$grid-container-padding: (
+	small: 40px
+);
+$breakpoints: (
+  small: 0px,
+  medium: 600px,
+  large: 1024px,
+  xlarge: 1200px,
+  xxlarge: 1440px,
+);

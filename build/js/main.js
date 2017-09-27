@@ -97,18 +97,12 @@ var app = function(win, doc) {
 	return {
 		init: function init() {
 			var pieGraph = function() {
-				var pieTransform = pieArrow.style.transform;
-
 				return {
 					start: function start(val) {
-						pieTransform = 'rotate(' + val + 'deg)';
-
-						return pieTransform;
+						pieArrow.style.transform = 'rotate(' + val + 'deg)';
 					},
 					reset: function reset() {
-						pieTransform = 'rotate(0deg)';
-
-						return pieTransform;
+						pieArrow.style.transform = 'rotate(0deg)';
 					}
 				};
 			}();

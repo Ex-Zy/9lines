@@ -50,18 +50,12 @@ const app = (function (win, doc) {
 	return {
 		init() {
 			const pieGraph = (function () {
-				let pieTransform = pieArrow.style.transform;
-
 				return {
 					start(val) {
-						pieTransform = `rotate(${val}deg)`;
-
-						return pieTransform;
+						pieArrow.style.transform = `rotate(${val}deg)`;
 					},
 					reset() {
-						pieTransform = 'rotate(0deg)';
-
-						return pieTransform;
+						pieArrow.style.transform = 'rotate(0deg)';
 					},
 				};
 			})();

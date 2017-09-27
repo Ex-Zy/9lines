@@ -47,20 +47,6 @@ var $html = $(document.documentElement);
 var $body = $(document.body);
 
 var app = function(win, doc) {
-
-	var checkboxes = doc.querySelectorAll('[type="checkbox"]');
-	var pieArrow = doc.querySelector('[data-arrow]');
-	var maxDeg = 180;
-	var maxCount = 1000;
-	var len = checkboxCounter(checkboxes).length();
-	var check = checkboxCounter(checkboxes).checked();
-	var currentCountValue = function currentCountValue(check) {
-		return Math.round(check * maxCount / len);
-	};
-	var pieValue = function pieValue(currentCountValue) {
-		return Math.round(currentCountValue * maxDeg / maxCount);
-	};
-
 	function checkboxCounter(elems) {
 		var countLength = elems.length;
 		var countChecked = 0;
@@ -91,20 +77,38 @@ var app = function(win, doc) {
 		}
 	}
 
+	var checkboxes = doc.querySelectorAll('[type="checkbox"]');
+	var pieArrow = doc.querySelector('[data-arrow]');
+	var maxDeg = 180;
+	var maxCount = 1000;
+	var len = checkboxCounter(checkboxes).length();
+	var check = checkboxCounter(checkboxes).checked();
+	var currentCountValue = function currentCountValue(currentCheckedElemens) {
+		return Math.round(currentCheckedElemens * maxCount / len);
+	};
+	var pieValue = function pieValue(countVal) {
+		return Math.round(countVal * maxDeg / maxCount);
+	};
+
 	for (var i = 0; i < checkboxes.length; i++) {
 		checkboxes[i].addEventListener('change', checkboxHandler, false);
 	}
 
 	return {
 		init: function init() {
-
 			var pieGraph = function() {
+				var pieTransform = pieArrow.style.transform;
+
 				return {
 					start: function start(val) {
-						return pieArrow.style.transform = 'rotate(' + val + 'deg)';
+						pieTransform = 'rotate(' + val + 'deg)';
+
+						return pieTransform;
 					},
 					reset: function reset() {
-						return pieArrow.style.transform = 'rotate(0deg)';
+						pieTransform = 'rotate(0deg)';
+
+						return pieTransform;
 					}
 				};
 			}();
@@ -118,6 +122,11 @@ var app = function(win, doc) {
 				return {
 					start: function start(checkedElements) {
 						var currentCounter = currentCountValue(checkedElements);
+
+						function resetTimer(id) {
+							clearTimeout(id);
+							id = null;
+						}
 
 						function increment() {
 							oldCounter = currentCounter;
@@ -139,11 +148,6 @@ var app = function(win, doc) {
 							}
 						}
 
-						function resetTimer(id) {
-							clearTimeout(id);
-							id = null;
-						}
-
 						if (currentCounter >= oldCounter) {
 							resetTimer(idMeter);
 							idMeter = setTimeout(increment, 4);
@@ -159,7 +163,7 @@ var app = function(win, doc) {
 			doc.addEventListener('click', function(e) {
 				var target = e.target;
 
-				while (target != this) {
+				while (target !== this) {
 					if (target.getAttribute('type') === 'checkbox') {
 						var checkElem = checkboxCounter(checkboxes).checked();
 						var count = currentCountValue(checkElem);
@@ -167,13 +171,14 @@ var app = function(win, doc) {
 
 						meter.start(checkElem);
 						pieGraph.start(val);
+
 						return;
 					}
 					target = target.parentNode;
 				}
 			}, false);
 
-			win.addEventListener('load', function(e) {
+			win.addEventListener('load', function() {
 				var curCountVal = currentCountValue(check);
 				var currentPieVal = pieValue(curCountVal);
 

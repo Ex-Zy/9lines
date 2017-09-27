@@ -9,16 +9,16 @@ html {
 }
 
 body {
-	background-color: $color-bg;
-	color: $color-dove-gray;
+	display: flex;
 	font-family: $font-family-roboto;
-	font-style: normal;
 	font-weight: 500;
+	font-style: normal;
 	font-size: 12px;
 	line-height: 1.4;
-	display: flex;
-	justify-content: center;
+	color: $color-dove-gray;
+	background-color: $color-bg;
 	align-items: center;
+	justify-content: center;
 }
 
 html, 

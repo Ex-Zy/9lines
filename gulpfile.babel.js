@@ -3,7 +3,6 @@ import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
 import {setup as emittySetup} from 'emitty';
 import routerConfig from './router-config';
-import fs from 'fs';
 
 let argv = yargs.default({
 	base: '.',

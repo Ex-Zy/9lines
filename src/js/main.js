@@ -3,140 +3,144 @@ svg4everybody();
 // @include('detect.js')
 // @include('globals.js')
 
-const app = (function(win, doc) {
-	
-	const checkboxes        = doc.querySelectorAll('[type="checkbox"]');
-	const pieArrow          = doc.querySelector('[data-arrow]');
-	const maxDeg            = 180;
-	const maxCount          = 1000;
-	let   len               = checkboxCounter(checkboxes).length();
-	let   check             = checkboxCounter(checkboxes).checked();
-	const currentCountValue = check => Math.round((check * maxCount) / len); 
-    const pieValue          = currentCountValue => Math.round((currentCountValue * maxDeg) / maxCount);
+const app = (function (win, doc) {
+	function checkboxCounter(elems) {
+		const countLength = elems.length;
+		let countChecked = 0;
 
-    function checkboxCounter(elems) {
-    	const countLength = elems.length;
-    	let countChecked = 0;
+		for (let i = 0; i < countLength; i++) {
+			if (elems[i].checked === true) {
+				countChecked++;
+			}
+		}
 
-    	for(let i = 0; i < countLength; i++) {
-    		if(elems[i].checked === true) {
-    			countChecked++;
-    		}
-    	}
+		return {
+			length() {
+				return countLength;
+			},
+			checked() {
+				return countChecked;
+			},
+		};
+	}
 
-    	return {
-    		length: function() {
-    			return countLength;
-    		},
-    		checked: function() {
-    			return countChecked;
-    		}
-    	}
-    }
+	function checkboxHandler(e) {
+		let el = e.target;
 
-    function checkboxHandler(e) {
-    	let el = e.target;
+		if (el.hasAttribute('checked')) {
+			el.removeAttribute('checked');
+		} else {
+			el.setAttribute('checked', 'checked');
+		}
+	}
 
-    	if(el.hasAttribute('checked')) {
-    		el.removeAttribute('checked');
-    	} else {
-    		el.setAttribute('checked', 'checked');
-    	}
-    }
+	const checkboxes = doc.querySelectorAll('[type="checkbox"]');
+	const pieArrow = doc.querySelector('[data-arrow]');
+	const maxDeg = 180;
+	const maxCount = 1000;
+	let len = checkboxCounter(checkboxes).length();
+	let check = checkboxCounter(checkboxes).checked();
+	const currentCountValue = (currentCheckedElemens) => Math.round(currentCheckedElemens * maxCount / len);
+	const pieValue = (countVal) => Math.round(countVal * maxDeg / maxCount);
 
-    for(let i = 0; i < checkboxes.length; i++) {
-    	checkboxes[i].addEventListener('change', checkboxHandler ,false);
-    }
+	for (let i = 0; i < checkboxes.length; i++) {
+		checkboxes[i].addEventListener('change', checkboxHandler, false);
+	}
 
-    return {
-    	init: function() {
+	return {
+		init() {
+			const pieGraph = (function () {
+				let pieTransform = pieArrow.style.transform;
 
-    		const pieGraph = (function() {
-    			return {
-    				start: function(val) {
-    					return pieArrow.style.transform = 'rotate('+ val +'deg)';
-    				},
-    				reset: function() {
-    					return pieArrow.style.transform = 'rotate(0deg)';
-    				}
-    			}
-    		})();
+				return {
+					start(val) {
+						pieTransform = `rotate(${val}deg)`;
 
-    		const meter = (function() {
-    			let meterElement = doc.querySelector('[data-meter]');
-    			let idMeter = null;
-    			let value = 0;
-    			let oldCounter = 0;
+						return pieTransform;
+					},
+					reset() {
+						pieTransform = 'rotate(0deg)';
 
-    			return {
-    				start: function(checkedElements) {
-    					let currentCounter = currentCountValue(checkedElements);
+						return pieTransform;
+					},
+				};
+			})();
 
-    					function increment() {
-    						oldCounter = currentCounter;
+			const meter = (function () {
+				let meterElement = doc.querySelector('[data-meter]');
+				let idMeter = null;
+				let value = 0;
+				let oldCounter = 0;
 
-    						if(value <= currentCounter) {
-    							meterElement.innerHTML = value++;
-    							resetTimer(idMeter);
-    							idMeter = setTimeout(increment, 4);
-    						}
-    					}
+				return {
+					start(checkedElements) {
+						let currentCounter = currentCountValue(checkedElements);
 
-    					function decriment() {
-    						oldCounter = currentCounter;
+						function resetTimer(id) {
+							clearTimeout(id);
+							id = null;
+						}
 
-    						if(value >= currentCounter) {
-    							meterElement.innerHTML = value--;
-                                resetTimer(idMeter);
-    							idMeter = setTimeout(decriment, 4);
-    						}
-    						
-    					}
+						function increment() {
+							oldCounter = currentCounter;
 
-                        function resetTimer(id) {
-                            clearTimeout(id);
-                            id = null;
-                        }
+							if (value <= currentCounter) {
+								meterElement.innerHTML = value++;
+								resetTimer(idMeter);
+								idMeter = setTimeout(increment, 4);
+							}
+						}
 
-    					if(currentCounter >= oldCounter) {
-                            resetTimer(idMeter);
-    						idMeter = setTimeout(increment, 4); 
-    					}
-    					if(currentCounter < oldCounter) {
-                            resetTimer(idMeter);
-    						idMeter = setTimeout(decriment, 4);
-    					}
-    				}
-    			}
-    		})();
+						function decriment() {
+							oldCounter = currentCounter;
 
-    		doc.addEventListener('click', function(e) {
+							if (value >= currentCounter) {
+								meterElement.innerHTML = value--;
+								resetTimer(idMeter);
+								idMeter = setTimeout(decriment, 4);
+							}
+						}
+
+						if (currentCounter >= oldCounter) {
+							resetTimer(idMeter);
+							idMeter = setTimeout(increment, 4);
+						}
+						if (currentCounter < oldCounter) {
+							resetTimer(idMeter);
+							idMeter = setTimeout(decriment, 4);
+						}
+					},
+				};
+			})();
+
+			doc.addEventListener('click', function (e) {
 				let target = e.target;
-				
-				while(target != this) {
-					if(target.getAttribute('type') === 'checkbox') {
+
+				while (target !== this) {
+					if (target.getAttribute('type') === 'checkbox') {
 						let checkElem = checkboxCounter(checkboxes).checked();
 						let count = currentCountValue(checkElem);
 						let val = pieValue(count);
 
 						meter.start(checkElem);
 						pieGraph.start(val);
+
 						return;
 					}
 					target = target.parentNode;
 				}
-
 			}, false);
 
-			win.addEventListener('load', function(e) {
+			win.addEventListener('load', () => {
 				let curCountVal = currentCountValue(check);
 				let currentPieVal = pieValue(curCountVal);
 
 				meter.start(check);
 				pieGraph.start(currentPieVal);
 			});
-		}
-    }
+		},
+	};
 })(window, document);
 
 app.init();
+

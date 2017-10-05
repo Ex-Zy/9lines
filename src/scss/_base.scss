@@ -9,26 +9,32 @@ html {
 }
 
 body {
-	display: flex;
 	font-family: $font-family-roboto;
 	font-weight: 500;
 	font-style: normal;
-	font-size: 12px;
 	line-height: 1.4;
 	color: $color-dove-gray;
 	background-color: $color-bg;
-	align-items: center;
-	justify-content: center;
-}
-
-html, 
-body {
-	height: 100%;
+	text-align: center;
+	font-size: 0;
+	height: 100vh;
+	&:before {
+	  content: "";
+	  display: inline-block;
+	  vertical-align: middle;
+	  width: 0;
+	  height: 100%;
+	}
+	&.is-loading {
+		overflow: hidden;
+	}
 }
 
 .out {
 	width: 100%;
-	margin: auto;
+	font-size: 12px;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .input {
@@ -52,4 +58,49 @@ body {
 .title {
 	font-size: 18px;
 	color: $color-black;
+}
+
+.loader {
+	position: absolute;
+	background-color: $color-blue;
+	top: 0;
+	bottom: 0; 
+	left: 0;
+	right: 0;
+	z-index: 999;
+	opacity: 1;
+	transition: 0.7s ease;
+	&.is-hidden {
+		opacity: 0;
+		visibility: hidden;
+	}
+	&__inner {
+		text-align: center;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		color: #fff;
+		font-family: Consolas, Menlo, Monaco, monospace;
+		font-weight: bold;
+		font-size: $loader-size;
+		opacity: 0.8;
+		@include small {
+			font-size: 20vh;
+		}
+	}
+  span {
+	display: inline-block;
+	animation: pulse 0.4s alternate infinite ease-in-out;
+	&:nth-child(odd) {
+	  animation-delay: 0.4s;
+	}
+  }
+}
+
+@keyframes pulse {
+  to {
+	transform: scale(0.8);
+	opacity: 0.5;
+  }
 }

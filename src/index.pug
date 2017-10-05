@@ -2,9 +2,15 @@ extends pug/base
 
 append vars
 	- html.classList.push('page-index')
+	- body.classList.push('is-loading')
 
 block content
 
+	//- Загрузчик
+	.loader(data-loader)
+		.loader__inner
+			span {
+			span }
 	.out
 		//- Анкета пользователя
 		.info.grid-container
@@ -25,18 +31,24 @@ block content
 		.skills.grid-container
 			h3.skills__title.title Навыки
 			.grid-x.grid-padding-x.small-up-2.medium-up-4
-				each unitList in [ [{attr: "checked",text: "Html5"}, {attr: "checked", text: "css3"}, {attr: "checked", text: "БЭМ"}], [{attr: "checked", text: "SASS"}, {attr: "checked", text: "LESS"}, {attr: "checked", text: "gULP"}], [{attr: "checked", text: "vANILLAJS"}, {text: "angular"}, {attr: "checked", text: "JQUERY"}], [{attr: "checked", text: "GIT"}, {attr: "checked", text: "fOUNDATION"}, {attr: "checked", text: "BOOTSTRAP"}] ]
+				-
+					var skillsList = [[{attr: "checked",text: "Html5"}, {attr: "checked", text: "css3"}, {attr: "checked", text: "БЭМ"}],
+					[{attr: "checked", text: "SASS"}, {attr: "checked", text: "LESS"}, {attr: "checked", text: "gULP"}],
+					[{attr: "checked", text: "vANILLAJS"}, {text: "angular"}, {attr: "checked", text: "JQUERY"}],
+					[{attr: "checked", text: "GIT"}, {attr: "checked", text: "fOUNDATION"}, {attr: "checked", text: "BOOTSTRAP"}]
+					];
+				each skillsCell in skillsList
 					.cell
 						ul.skills__list.list
-							each unitItem in unitList
+							each skillsItem in skillsCell
 								li.list__item
 									label
-										if unitItem.attr === "checked"
+										if skillsItem.attr
 											input.list__checkbox(type="checkbox" checked)
 										else
 											input.list__checkbox(type="checkbox")
 
-										span.list__text= unitItem.text
+										span.list__text= skillsItem.text
 		
 		//- График и счетчик
 		.interactive.grid-container

@@ -1,9 +1,7 @@
-svg4everybody();
-
 // @include('detect.js')
 // @include('globals.js')
 
-const app = (function (win, doc) {
+const app = (function (win, doc, body) {
 	function checkboxCounter(elems) {
 		const countLength = elems.length;
 		let countChecked = 0;
@@ -128,13 +126,22 @@ const app = (function (win, doc) {
 			win.addEventListener('load', () => {
 				let curCountVal = currentCountValue(check);
 				let currentPieVal = pieValue(curCountVal);
+				const loader = doc.querySelector('[data-loader]');
+				let duration = 2000;
 
 				meter.start(check);
 				pieGraph.start(currentPieVal);
+
+				if (body.classList.contains('is-loading') && loader.classList.contains('is-hidden') === false) {
+					setTimeout(() => {
+						body.classList.remove('is-loading');
+						loader.classList.add('is-hidden');
+					}, duration);
+				}
 			});
 		},
 	};
-})(window, document);
+})(window, document, document.querySelector('body'));
 
 app.init();
 

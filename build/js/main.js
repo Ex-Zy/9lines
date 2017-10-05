@@ -1,7 +1,5 @@
 'use strict';
 
-svg4everybody();
-
 (function() {
 	var iterate = function iterate(items, callback) {
 		items.forEach(function(item) {
@@ -46,7 +44,7 @@ var $document = $(document);
 var $html = $(document.documentElement);
 var $body = $(document.body);
 
-var app = function(win, doc) {
+var app = function(win, doc, body) {
 	function checkboxCounter(elems) {
 		var countLength = elems.length;
 		var countChecked = 0;
@@ -175,12 +173,21 @@ var app = function(win, doc) {
 			win.addEventListener('load', function() {
 				var curCountVal = currentCountValue(check);
 				var currentPieVal = pieValue(curCountVal);
+				var loader = doc.querySelector('[data-loader]');
+				var duration = 2000;
 
 				meter.start(check);
 				pieGraph.start(currentPieVal);
+
+				if (body.classList.contains('is-loading') && loader.classList.contains('is-hidden') === false) {
+					setTimeout(function() {
+						body.classList.remove('is-loading');
+						loader.classList.add('is-hidden');
+					}, duration);
+				}
 			});
 		}
 	};
-}(window, document);
+}(window, document, document.querySelector('body'));
 
 app.init();

@@ -62,7 +62,7 @@ body {
 }
 
 .loader {
-	position: absolute;
+	position: fixed;
 	background-color: $color-blue;
 	top: 0;
 	bottom: 0; 

@@ -25,17 +25,17 @@ block content
 					.contact__row
 						input.input(type="text" placeholder="Город" value="Киев")
 					.contact__row
-						input.input(type="text" placeholder="Контактные данные" value="ул. Туполева 1, кв 70")
+						input.input(type="text" placeholder="Образование" value="высшее, в сфере ИТ")
 
 		//- Навыки
 		.skills.grid-container
 			h3.skills__title.title Навыки
 			.grid-x.grid-padding-x.small-up-2.medium-up-4
 				-
-					var skillsList = [[{attr: "checked",text: "Html5"}, {attr: "checked", text: "css3"}, {attr: "checked", text: "БЭМ"}],
-					[{attr: "checked", text: "SASS"}, {attr: "checked", text: "LESS"}, {attr: "checked", text: "gULP"}],
-					[{attr: "checked", text: "vANILLAJS"}, {text: "angular"}, {attr: "checked", text: "JQUERY"}],
-					[{attr: "checked", text: "GIT"}, {attr: "checked", text: "fOUNDATION"}, {attr: "checked", text: "BOOTSTRAP"}]
+					var skillsList = [[{attr: "checked",text: "Html5"}, {attr: "checked", text: "css3"}, {attr: "checked", text: "БЭМ"}, {attr: "checked", text: "Webpack"}],
+					[{attr: "checked", text: "SASS"}, {attr: "checked", text: "LESS"}, {attr: "checked", text: "Liquid"}, {attr: "checked", text: "gULP"}],
+					[{attr: "checked", text: "vANILLAJS"}, {text: "angular"}, {attr: "checked", text: "JQUERY"}, {text: "React"}],
+					[{attr: "checked", text: "GIT"}, {attr: "checked", text: "fOUNDATION"}, {attr: "checked", text: "BOOTSTRAP"}, {attr: "checked", text: "Scrum"}]
 					];
 				each skillsCell in skillsList
 					.cell
@@ -58,7 +58,7 @@ block content
 						.pie__arrow(data-arrow)
 				.cell
 					h3.title 
-						| Мой уровень владения 
+						| Уровень владения 
 						br 
-						| Java Script
+						| веб-технологиями
 					.meter(data-meter) 0
